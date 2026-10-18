@@ -1,0 +1,17 @@
+.containerCard{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.buttShowMore{
+  background-color: transparent;
+  border: none;
+  color: green;
+}
+
+.buttShowLess{
+  background-color: transparent;
+  border: none;
+  color: red;
+}
