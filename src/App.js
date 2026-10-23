@@ -17,6 +17,27 @@ function App() {
 
   const [search, setSearch] = useState("")
   const [njoum, setNjoum] = useState(0)
+// data or state in App.js
+const initialMovies = [
+  {
+    id: 1,
+    title: "Inception",
+    description: "A thief who steals secrets through dreams is given a final job: planting an idea.",
+    posterURL: "https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",
+    rating: 9,
+    trailer: "https://www.youtube.com/embed/YoHD9XEInc0",
+  },
+  {
+    id: 2,
+    title: "Interstellar",
+    description: "Explorers travel through a wormhole in space to save humanity.",
+    posterURL: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+    rating: 9,
+    trailer: "https://www.youtube.com/embed/zSWdZVtXT7E",
+  },
+];
+
+
   return (
    <div>
     <NavMovie/>
@@ -26,7 +47,46 @@ function App() {
       <Route path='/movies' element={<AllMovies setSearch={setSearch} setNjoum={setNjoum} search={search} njoum={njoum} movies={movies} setMovies={setMovies}/>}/>
       <Route path='/MovieDescription/:id' element={<MovieDescription movies={movies}/>}/>
     </Routes>
+import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import MovieList from "./components/MovieList";
+import Filter from "./components/Filter";
+import MovieDetails from "./components/MovieDetails";
 
+function App() {
+  Const [movies, setMovies] = useState(initialMovies);
+  const [titleFilter, setTitleFilter] = useState("");
+  const [ratingFilter, setRatingFilter] = useState(0);
+
+  const filteredMovies = movies.filter(
+    (m) =>
+      m.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
+      m.rating >= ratingFilter
+  );
+
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <>
+            <Filter
+              titleFilter={titleFilter}
+              setTitleFilter={setTitleFilter}
+              ratingFilter={ratingFilter}
+              setRatingFilter={setRatingFilter}
+            />
+            <MovieList movies={filteredMovies} />
+            {/* your "add movie" form stays here */}
+          </>
+        }
+      />
+      <Route path="/movie/:id" element={<MovieDetails movies={movies} />} />
+    </Routes>
+  );
+}
+
+export default App;
 
     {/* <FilterMovies setSearch={setSearch} setNjoum={setNjoum} search={search} njoum={njoum}/>
     <AddMovie movies={movies} setMovies={setMovies}/>
